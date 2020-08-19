@@ -1,0 +1,26 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div class="centered">
+
+    <ul class="ul">
+       <form method = "post" action = "/add-book">
+        <!-- <label for="message-input"></label>
+        <input id="message-input" type = "text" name= "Message"/> -->
+        <label class="label" for="author">Author</label>
+        <input class= "input" id= "author" type = "text" name = "author"/>
+    
+        <label class="label" for = "title">Title</label>
+        <input class="input" id="title" type = "text" name = "title"/>
+    
+        <button class ="button" type= "submit">Submit</button>
+    
+    
+        <!-- <label for = "release">Release</label>
+        <input id = "release" type = "number" name = "release"/> -->
+    </form>
+    </ul>
+</div>
+
+{% endblock %}

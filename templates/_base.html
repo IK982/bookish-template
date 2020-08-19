@@ -1,16 +1,67 @@
-﻿﻿<html lang="en">
+﻿﻿<html>
     <head>
         <title>Bookish</title>
-        <link href="/site.css" rel="stylesheet" type="text/css">
+        <link href= "/site.css" rel="stylesheet" type= "text/css"> 
     </head>
     <body>
         <header>
-            <nav>
-                <a href="/">Home</a>
-            </nav>
-        </header>
-        <main>
-            {% block content %}{% endblock %} 
-        </main>
-    </body>
+        <div class="hero">
+            <div class="title">
+                <a class="brand-name" href="/">Bookish</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <nav class="navigation">
+            <!-- <ul class="nav-list">
+                <li class="nav-list-item"><a href="/all-books">Books With Authors</a></li>
+                <li class="nav-list-item"><a href="/all-titles">Titles</a></li>
+                <li class="nav-list-item"><a href="/all-authors">Authors</a></li>
+                <li class="nav-list-item"><a href="/all-users">Users</a></li>
+                <li class="nav-list-item"><a href="/add-user">Add User</a></li>
+                <li class="nav-list-item"><a href="/add-book">Add New Book</a></li>
+                <li class="nav-list-item"><a href="/delete-book">Delete Book</a></li>
+                <li class="nav-list-item"><a href="/user-id">Get User Info By Id</a></li>
+                <li class="nav-list-item"><a href="/book-id">Get Book info By Id</a></li>
+                </ul> -->
+            <div class="links-centered">
+
+                <div class="dropdown">
+                    <button class="dropbtn">List
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="/all-books">Books</a>
+                        <a href="/all-titles">Titles</a>
+                        <a href="/all-authors">Authors</a>
+                        <a href="/all-users">Users</a>
+                        
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Manage
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="/add-book">Add Book</a>
+                        <a href="/delete-book">Delete Book</a>
+                        <a href="/add-user">Add User</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Get By Id
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="/book-id">Book Info</a>
+                        <a href="/user-id">User Info</a>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
 </html>

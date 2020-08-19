@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div class="centered">
+    <ul>
+        
+        <form method="post" action="/book-id">        
+            
+            <label for="id">ID</label>
+            <input id="id" type="number" name="id"/>
+    
+            <button class="button" type="submit">Submit</button>
+    
+            {% for book in book %}     
+    
+            <p class="bigText">
+            Book Title: {{book.title}} <br> 
+            Book Author: {{book.author}} 
+            No of Copies: {{book.quantity}}
+            </p>
+    
+       
+    
+            {% endfor %}
+    
+        </form>
+    </ul>
+
+</div>
+
+{% endblock %}

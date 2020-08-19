@@ -1,0 +1,26 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div class="centered">
+
+
+    <ul class="ul">
+       <form method = "post" action = "/add-user">
+        <!-- <label for="message-input"></label>
+        <input id="message-input" type = "text" name= "Message"/> -->
+        <label class="label" for="name">Name</label>
+        <input id= "name" type = "text" name = "name"/>
+    
+        <label class="label" for = "email">Email</label>
+        <input class="input" id="email" type = "text" name = "email"/>
+    
+        <button class="button" type= "submit">Submit</button>
+    
+    
+        <!-- <label for = "release">Release</label>
+        <input id = "release" type = "number" name = "release"/> -->
+    </form>
+    </ul>
+</div>
+
+{% endblock %}

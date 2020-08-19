@@ -1,0 +1,14 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<ul class="bulletpoint-list">
+    <div class= "cards">
+
+        {% for book in authors %}
+        <li class="bigText">{{book.author}}</li>
+        {% endfor %}
+
+    </div>
+</ul>
+
+{% endblock %}
