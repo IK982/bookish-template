@@ -1,8 +1,10 @@
 import Knex from "knex";
 import { title } from "process";
+import crypto from "crypto";
+// import bookshelf from "bookshelf";
 
 
-const client = Knex ({
+export const client = Knex ({
     client: 'pg',
     connection: {
         host: 'localhost',
@@ -13,6 +15,7 @@ const client = Knex ({
     }
 });
 
+// export const bookshelf = require('bookshelf')(client)
 
 export const getAllBooks = () => {
     return client('book')
@@ -20,12 +23,48 @@ export const getAllBooks = () => {
     .where("deleted", false)
 }
 
+// export const getAllBooks = bookshelf.model('Book', {
+//     tableName: 'book',
+//     posts() {
+//         return this.hasMany(Posts)
+//     }
+// })
+
 export const getAllTitles = () => {
     return client('book')
     .select('title')
     .where("deleted", false)
     .orderBy('title')
 }
+
+// export const Title = bookshelf.Model('book', {
+//     tableName: 'book',
+//     titles() {
+//         return this.hasMany(titles)
+//     }
+// })
+
+// export const getAllTitles = bookshelf.Model.extend({
+//     tableName: 'book'
+// });
+
+// getAllTitles.title().then((title: string) => {
+//     console.log(`All Book Titles: ${title}`);
+// })
+
+// export const Title = bookshelf.Model('Title', {
+//     tableName: 'book'
+//     )};
+
+// export const Title = bookshelf.Model('Title', {
+//     tableName: 'book'
+// });
+
+// export const getAllTitles = async () => {
+
+//     const titles = await new Title().fetchAll();
+//     return titles.toJSON();
+// }
 
 export const getAllAuthors = () => {
     return client('book')
@@ -65,9 +104,10 @@ interface User {
     
 }
 
-export const addNewUser = (user: User) => {
-    return client.insert({name: user.name, email: user.email}).into("member")
-}
+// export const addNewUser = (user: User) => {
+//     return client.insert({name: user.name, email: user.email}).into("member")
+// }
+
 
 
 export const getUserById = (id: number) => {

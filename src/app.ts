@@ -2,9 +2,11 @@
 import express, { response } from "express";
 import nunjucks from "nunjucks";
 import sassMiddleware from "node-sass-middleware";
-import {getAllBooks, getAllAuthors, getAllTitles, addNewBook, getAllUsers, deleteBook, addNewUser, getBookById, getUserById} from "./database"
+import {getAllBooks, getAllAuthors, getAllTitles, addNewBook, getAllUsers, deleteBook, getBookById, getUserById} from "./database"
+import {addNewUser} from "./crypto";
 import { title } from "process";
 import moment from "moment";
+
 
 
 const app = express();
@@ -97,16 +99,32 @@ app.post("/delete-book", async (request, response) => {
     response.send("Book Deleted!")
 });
 
-app.get("/add-user", async (request, response) => {
-    response.render('addUser.html')
-});
+// app.get("/add-user", async (request, response) => {
+//     response.render('addUser.html')
+// });
 
-app.post("/add-user", async (request, response) => {
-    const user = request.body
-    console.log(user)
-    await addNewUser(user)
-    response.redirect("/all-users")
-});
+// app.post("/add-user", async (request, response) => {
+//     const user = request.body
+//     console.log(user)
+//     await addNewUser(user)
+//     response.redirect("/all-users")
+// });
+
+
+app.post("/signup", async (request, response) => {
+    const name = request.body.name
+    const email = request.body.email
+    console.log(request.body)
+    const password =  request.body.password
+    const confirm =  await addNewUser(name, email, password)
+
+    response.send("success")
+})
+
+app.get("/signup", (request, response) =>{
+    response.render('signup.html')
+
+})
 
 /* ========= GET MEMBER INFO WITH ID ====== */
 app.get("/user-id", async (request, response) => {

@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="centered">
-
+    <h1>User Information</h1>
     <form method="post" action="/user-id">
 
         <label class="label" for="id">ID</label>
@@ -16,19 +16,19 @@
         {{userCheckOuts[0].email}}
     </p>
 
-    <ul class="ul">
+    <!-- <ul class="ul"> -->
         {% for userCheckOut in userCheckOuts %}
 
 
-        <li class="bigText">
+        <p class="bigText">
             {{userCheckOut.title}} <br>
             {{userCheckOut.check_out_date | formatDate}} <br>
-            {{userCheckOut.return_date | formatDate}}</li>
+            {{userCheckOut.return_date | formatDate}}</p>
 
         {% endfor %}
 
 
-    </ul>
+    <!-- </ul> -->
 </div>
 
 {% endblock %}

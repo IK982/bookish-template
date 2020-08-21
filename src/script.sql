@@ -18,7 +18,9 @@ CREATE TABLE IF NOT EXISTS book_copy (
 CREATE TABLE IF NOT EXISTS member (
     id serial primary key,
     name varchar(255) not null,
-    email varchar(255)
+    email varchar(255) not null
+    -- salt varchar (255) not null,
+    -- hash varchar(255) not null
 );
 
 CREATE TABLE IF NOT EXISTS checked_out_book (

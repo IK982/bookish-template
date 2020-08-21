@@ -1,13 +1,14 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<ul class="bulletpoint-list">
+<!-- <ul class="bulletpoint-list"> -->
     <div class= "cards">
+        <h1>Users</h1>
         {% for user in users %}
-        <li class="bigText"> Name: {{user.name}} <br></br> Email:  {{user.email}}<br></br></li>
+        <p class="bigText"> Name: {{user.name}} <br></br> Email:  {{user.email}}<br></br></p>
         {% endfor %}
 
     </div>
-</ul>
+<!-- </ul> -->
 
 {% endblock %}

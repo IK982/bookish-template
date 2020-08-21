@@ -169,6 +169,10 @@ label {
   padding: 16px;
   text-align: center;
   background-color: #f1f1f1;
+  margin-bottom: 55px;
+  margin-left: 60px;
+  margin-right: 60px;
+  
 }
 
 
@@ -196,6 +200,7 @@ ul {
 .dropdown {
   float: left;
   overflow: hidden;
+  // position: absolute;
 }
 .dropdown .dropbtn {
   font-size: 25px;
@@ -233,6 +238,20 @@ ul {
   display: block;
 }
 
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(141, 123, 123);
+  color: white;
+  text-align: center;
+  }
+  
+  .footer p {
+    font-size: 16px;
+  }
 
 
 
