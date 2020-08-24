@@ -4,18 +4,31 @@ import {client} from "./database";
 import { title } from "process";
 import crypto from "crypto";
 
-
+// export const passwordFunction = (password : string, salt: string) => {
+//     let valueToHash = password + salt;
+//     return crypto
+//     .createHash('sha256')
+//     .update(valueToHash)
+//     .digest('base64')
+// }
 
 
 export const addNewUser = (name: string, email: string, password: string) => {
-    const lengthOfSalt = 10;
-    const salt = crypto.randomBytes(lengthOfSalt).toString('base64');
+    // const lengthOfSalt = 10;
+    const salt = crypto.randomBytes(10).toString('base64');
     const hashedValue = crypto
         .createHash('sha256')
-        .update(password)
+        .update(password + salt)
         .digest('base64');
         
     return client('member')
     .insert({name: name, email: email, salt: salt, hash: hashedValue})
 }
+
+interface HashResult {
+    salt: string;
+    hashedPassword: string;
+}
+
+
 

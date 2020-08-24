@@ -3,7 +3,7 @@ import express, { response } from "express";
 import nunjucks from "nunjucks";
 import sassMiddleware from "node-sass-middleware";
 import {getAllBooks, getAllAuthors, getAllTitles, addNewBook, getAllUsers, deleteBook, getBookById, getUserById} from "./database"
-import {addNewUser} from "./crypto";
+import {addNewUser} from "./loginQueries";
 import { title } from "process";
 import moment from "moment";
 
