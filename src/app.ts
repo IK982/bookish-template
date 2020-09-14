@@ -2,10 +2,14 @@
 import express, { response } from "express";
 import nunjucks from "nunjucks";
 import sassMiddleware from "node-sass-middleware";
-import {getAllBooks, getAllAuthors, getAllTitles, addNewBook, getAllUsers, deleteBook, getBookById, getUserById} from "./database"
-import {addNewUser} from "./loginQueries";
+import { getAllBooks, getAllAuthors, getAllTitles, addNewBook, getAllUsers, deleteBook, getBookById, getUserById } from "./database"
+import { addNewUser, matchHash} from "./loginQueries";
 import { title } from "process";
 import moment from "moment";
+import passportlocal from "passport-local";
+import passport from "passport";
+import cookieparser from "cookie-parser";
+import expresssession from "express-session";
 
 
 
@@ -27,11 +31,33 @@ app.use(
 );
 
 app.use(
-    express.urlencoded({extended:true})
+    express.urlencoded({ extended: true })
 );
+app.use(cookieparser());
+app.use(expresssession({
+    secret: "secret"
+}));
 
+
+const LocalStrategy = passportlocal.Strategy;
+app.use(passport.initialize())
+passport.use(new LocalStrategy(
+    async (email, password, done) => {
+        //find the user
+
+        const member = await matchHash(email, password);
+
+        if (member === false) {
+            return done(null, false, { message: "user not found" })
+        }
+        else {
+            return done(null, member);
+        }
+    }
+
+))
 const PATH_TO_TEMPLATES = "./templates/";
-const env = nunjucks.configure(PATH_TO_TEMPLATES, { 
+const env = nunjucks.configure(PATH_TO_TEMPLATES, {
     autoescape: true,
     express: app
 });
@@ -46,6 +72,48 @@ app.get("/", (request, response) => {
     response.render('index.html', model);
 });
 
+
+
+app.post("/signup", async (request, response) => {
+    const name = request.body.name
+    const email = request.body.email
+    console.log(request.body)
+    const password = request.body.password
+    const confirm = await addNewUser(name, email, password)
+    
+    response.send("success")
+})
+
+app.get("/signup", (request, response) => {
+    response.render('signup.html')
+    
+})
+app.post('/login',
+passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    
+})
+);
+
+
+
+// app.get("/add-user", async (request, response) => {
+//     response.render('addUser.html')
+// });
+
+// app.post("/add-user", async (request, response) => {
+//     const user = request.body
+//     console.log(user)
+//     await addNewUser(user)
+//     response.redirect("/all-users")
+// });
+
+
+
+
+/* ========= GET ALL BOOKS ====== */
+
 app.get("/all-books", async (request, response) => {
     const bookRequest = await getAllBooks();
     const model = {
@@ -54,6 +122,8 @@ app.get("/all-books", async (request, response) => {
     response.render('books.html', model);
 });
 
+/* ========= GET ALL TITLES ====== */
+
 app.get("/all-titles", async (request, response) => {
     const titleRequest = await getAllTitles();
     const model = {
@@ -61,6 +131,8 @@ app.get("/all-titles", async (request, response) => {
     }
     response.render('titles.html', model);
 });
+
+/* ========= GET ALL AUTHORS  ====== */
 
 app.get("/all-authors", async (request, response) => {
     const authorRequest = await getAllAuthors();
@@ -73,10 +145,12 @@ app.get("/all-authors", async (request, response) => {
 app.get("/all-users", async (request, response) => {
     const userRequest = await getAllUsers();
     const model = {
-        users : userRequest
+        users: userRequest
     }
     response.render('users.html', model);
 })
+
+/* ========= ADD/DELETE BOOK ====== */
 
 app.get("/add-book", async (request, response) => {
     response.render('addBook.html')
@@ -99,37 +173,11 @@ app.post("/delete-book", async (request, response) => {
     response.send("Book Deleted!")
 });
 
-// app.get("/add-user", async (request, response) => {
-//     response.render('addUser.html')
-// });
-
-// app.post("/add-user", async (request, response) => {
-//     const user = request.body
-//     console.log(user)
-//     await addNewUser(user)
-//     response.redirect("/all-users")
-// });
-
-
-app.post("/signup", async (request, response) => {
-    const name = request.body.name
-    const email = request.body.email
-    console.log(request.body)
-    const password =  request.body.password
-    const confirm =  await addNewUser(name, email, password)
-
-    response.send("success")
-})
-
-app.get("/signup", (request, response) =>{
-    response.render('signup.html')
-
-})
-
 /* ========= GET MEMBER INFO WITH ID ====== */
+
 app.get("/user-id", async (request, response) => {
     response.render('bookCheckOut.html')
-}) 
+})
 
 app.post("/user-id", async (request, response) => {
     const userID = request.body.id
@@ -149,7 +197,7 @@ app.listen(port, () => {
 /* ========= GET BOOK INFO WITH ID ====== */
 app.get("/book-id", async (request, response) => {
     response.render('bookById.html')
-}) 
+})
 
 app.post("/book-id", async (request, response) => {
     const bookID = request.body.id
@@ -157,5 +205,19 @@ app.post("/book-id", async (request, response) => {
         book: await getBookById(bookID)
     };
     response.render('bookById.html', model)
-    
+
 })
+
+
+// app.get("/register", async (request, response) => {
+//     response.render('register.html')
+// })
+
+// app.post("/register", async (request, response) => {
+//     const newUser = request.body;
+//     const sqlResultRegister = await addNewUser(newUser);
+//     const model = {
+//         register: sqlResultRegister
+//     }
+//     response.render('register.html')
+// })
